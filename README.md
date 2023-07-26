@@ -4,31 +4,34 @@
 - Docker
 
 ### Steps:
-1. Need to run the Postgres docker container first with this command:
-	docker run -itd -e POSTGRES_USER=robin -e POSTGRES_PASSWORD=lee123 -e POSTGRES_DB=postgres_db --net=host --name postgresql postgres
+1. Build the docker images via docker-compose:
+	docker-compose build
 
-2. Need to build the Docker Image:
-	docker build --tag python-application .
-	
-3. Run the docker image:
-	docker run -itd --net host --name python python-application
-
-
-docker network create net
-docker network connect net python
-docker network connect net postgresql
-
-docker exec -it python curl localhost:8080/db/init 
-
+3. Need to run the Docker Compose:
+	docker-compose up -d
 
 4. Access Application:
-	1. Load the Database 							-> http://localhost/db/init
-	2. Total experiments a user ran.				-> http://localhost/user/<user>/experiments/
-	3. Average experiments amount per user. 		-> http://localhost/user/<user>/average_experiments/
-	4. User's most commonly experimented compound. 	-> http://localhost/user/<user>/compound/
+	1. Load the Database 							-> http://localhost:8080/db/init
+	2. Total experiments a user ran.				-> http://localhost:8080/user/{user}/experiments/
+	3. Average experiments amount per user. 		-> http://localhost:8080/user/{user}/average_experiments/
+	4. User's most commonly experimented compound. 	-> http://localhost:8080/user/{user}/compound/
 
-## Useful commands:
-To visualize the DB:
-docker exec -it postgresql psql -U robin -d postgres_db -c "SELECT * FROM Users;"
-docker exec -it postgresql psql -U robin -d postgres_db -c "SELECT * FROM User_Experiments;"
-docker exec -it postgresql psql -U robin -d postgres_db -c "SELECT * FROM Compounds;"
+### Useful commands:
+#### To visualize the DB:
+1. First get the db name via:
+	##### docker ps -a:
+<p>
+test-postgres-1
+</p>
+
+2. Execute the cmd below 
+
+	docker exec -it test-postgres-1 psql -U robin -d postgres_db -c "SELECT * FROM Users;"
+
+	docker exec -it test-postgres-1 psql -U robin -d postgres_db -c "SELECT * FROM User_Experiments;"
+
+	docker exec -it test-postgres-1 psql -U robin -d postgres_db -c "SELECT * FROM Compounds;"
+
+3. To stop the docker-compose:
+
+	docker-compose kill

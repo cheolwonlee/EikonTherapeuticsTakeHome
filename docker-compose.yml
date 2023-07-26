@@ -1,0 +1,36 @@
+version: '2'
+services:
+  postgres:
+    image: 'postgres:9.6'
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_PASSWORD=lee123
+      - POSTGRES_USER=robin
+      - POSTGRES_DB=postgres_db
+      - POSTGRES_HOST=cluetapapi_postgres_1
+    networks:
+      - default
+      - service-proxy
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'postgres:/var/lib/postgresql/data'
+    labels:
+      description: "Postgresql Database"
+      service: "postgresql"
+    stdin_open: true # docker run -i
+    tty: true 
+  web:
+    container_name: python-application
+    build: .
+    command: python controller.py
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - 'postgres'
+networks:
+  service-proxy:
+volumes:
+  postgres:

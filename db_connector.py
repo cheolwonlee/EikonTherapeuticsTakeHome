@@ -7,7 +7,7 @@ from collections import Counter
 
 Base = declarative_base()
 
-engine = create_engine('postgresql://robin:lee123@localhost:5432/postgres_db')
+engine = create_engine('postgresql://robin:lee123@postgres:5432/postgres_db')
 
 class Users(Base):
     __tablename__ = 'users' 
