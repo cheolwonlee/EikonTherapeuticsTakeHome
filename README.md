@@ -5,9 +5,11 @@
 
 ### Steps:
 1. Build the docker images via docker-compose:
+
 	docker-compose build
 
 3. Need to run the Docker Compose:
+
 	docker-compose up -d
 
 4. Access Application:
